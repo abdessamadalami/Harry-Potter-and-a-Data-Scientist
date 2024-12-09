@@ -88,10 +88,12 @@ class describ:
         qan_list = sorted(colum)
         p1 = 1 + (0.25) * (len(qan_list) - 1) 
         frac, whole = math.modf(p1)
+        # print(p1)
         if frac:
             l, u = int(p1) - 1, int(p1)
             if u < 0 : l = 0
             p = qan_list[l] + frac * (qan_list[u] - qan_list[l])
+            (
             return p
         else :
             return qan_list[int(p1)]

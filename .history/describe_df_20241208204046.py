@@ -88,10 +88,21 @@ class describ:
         qan_list = sorted(colum)
         p1 = 1 + (0.25) * (len(qan_list) - 1) 
         frac, whole = math.modf(p1)
+        print(p1)
         if frac:
+        #    Lower Value+(Decimal Part of P)×(Upper Value−Lower Value)
             l, u = int(p1) - 1, int(p1)
             if u < 0 : l = 0
+            # print((l,u), frac, qan_list[u]  ,qan_list[l])
+            # print(qan_list)
+            # print(" This p",p1,"l", l,"u", u, len(colum), frac,colum[l] +  frac * (colum[u] - colum[l]))
             p = qan_list[l] + frac * (qan_list[u] - qan_list[l])
+            print(p)
+            # print(p)
             return p
         else :
+            # print("ppppppppppppppppp ", (qan_list[int(p1)]), p1)
             return qan_list[int(p1)]
+        # p2 = (50/100) * (len(qan_list) + 1)
+        # p3 = (75/100) * (len(qan_list) + 1)
+

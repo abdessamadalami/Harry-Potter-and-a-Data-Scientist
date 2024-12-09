@@ -19,17 +19,13 @@ class describ:
         self.des_col = []
         self.des_set = []
         print("constrctor ")
-        # df = pd.DataFrame( [2, 4, 6, 8, 10, 12, 14, 16, 18, 20])
         for colum in df:
             if is_numeric_dtype(df[colum]):
                 # print (self.count(df[colum]))
                 # print (self.mean(df[colum]), df[colum].mean())
-                # print ("stander ",df[colum].std(), " May ",self.std(df[colum]))
-                
-                # print('max===> ',df[colum].max(), self.max(df[colum]))
-                # print('min===> ',df[colum].min(), self.min(df[colum]))
-                print("our",self.percentile(df[colum]), "they",df[colum].quantile(0.25))
-                
+                print (self.std(df[colum]), df[colum].std())
+                break
+                # self.max(colum)
                 # self.min(colum)
                 # self.percentile(colum)
 
@@ -51,14 +47,17 @@ class describ:
         return colum.sum() / len(colum)
 
     def std(self, colum)-> float:
+        print("dro",len(colum.dropna()))
         mean_value = self.mean(colum)
+        print("len",len(colum))
         colum = colum.dropna()
-        va = lambda x : math.pow(abs(x - mean_value),2)
-        stander = sum(list(map(va , colum)))
+        print(("dro", len(colum)))
+        # va = lambda x : math.pow(abs(x - mean_value),2)
+        stander = sum(list(map(lambda x : math.pow(abs(x - mean_value),2) , colum)))
+        print("stander ", stander,  len(colum))
         l = len(colum)
-        if l == 0:
-           return 0
-        std = math.sqrt(stander/(l - 1))
+        print("This is len if ",l)
+        std = stander/
         return std
 
     def min(self, colum)-> float:
@@ -66,9 +65,7 @@ class describ:
         min_value = sys.maxsize
         for value in colum:
             if value < min_value:
-              min_value = value
-        if min_value == sys.maxsize:
-           return 'nan'
+              min_value = value 
         return min_value
 
     def max(self, colum)-> float:
@@ -77,21 +74,11 @@ class describ:
         for value in colum:
             if value > max_value:
              max_value = value 
-        if max_value == float('-inf'):
-           return 'nan'
         return max_value
 
-    def percentile (self, colum):
-        colum = colum.dropna()
-        if len(colum) == 0:
-            return 
-        qan_list = sorted(colum)
-        p1 = 1 + (0.25) * (len(qan_list) - 1) 
-        frac, whole = math.modf(p1)
-        if frac:
-            l, u = int(p1) - 1, int(p1)
-            if u < 0 : l = 0
-            p = qan_list[l] + frac * (qan_list[u] - qan_list[l])
-            return p
-        else :
-            return qan_list[int(p1)]
+    def percentile (self, value):
+        qan_list = sorted(value.dorpna())
+        self.q1 = (25/100) * (len(value) + 1)
+        self.q2 = (50/100) * (len(value) + 1)
+        self.q3 = (75/100) * (len(value) + 1)
+

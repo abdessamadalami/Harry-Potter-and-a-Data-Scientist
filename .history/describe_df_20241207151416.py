@@ -19,7 +19,6 @@ class describ:
         self.des_col = []
         self.des_set = []
         print("constrctor ")
-        # df = pd.DataFrame( [2, 4, 6, 8, 10, 12, 14, 16, 18, 20])
         for colum in df:
             if is_numeric_dtype(df[colum]):
                 # print (self.count(df[colum]))
@@ -27,9 +26,7 @@ class describ:
                 # print ("stander ",df[colum].std(), " May ",self.std(df[colum]))
                 
                 # print('max===> ',df[colum].max(), self.max(df[colum]))
-                # print('min===> ',df[colum].min(), self.min(df[colum]))
-                print("our",self.percentile(df[colum]), "they",df[colum].quantile(0.25))
-                
+                print('min===> ',df[colum].min(), self.min(df[colum]))
                 # self.min(colum)
                 # self.percentile(colum)
 
@@ -83,15 +80,10 @@ class describ:
 
     def percentile (self, colum):
         colum = colum.dropna()
-        if len(colum) == 0:
-            return 
         qan_list = sorted(colum)
-        p1 = 1 + (0.25) * (len(qan_list) - 1) 
+        p1 = (25/100) * (len(qan_list) + 1)
         frac, whole = math.modf(p1)
-        if frac:
-            l, u = int(p1) - 1, int(p1)
-            if u < 0 : l = 0
-            p = qan_list[l] + frac * (qan_list[u] - qan_list[l])
-            return p
-        else :
-            return qan_list[int(p1)]
+        if frac
+        p2 = (50/100) * (len(qan_list) + 1)
+        p3 = (75/100) * (len(qan_list) + 1)
+
