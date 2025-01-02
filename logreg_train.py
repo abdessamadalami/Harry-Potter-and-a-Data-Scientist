@@ -4,7 +4,8 @@ import seaborn as sns
 from sklearn import datasets
 import pandas as pd
 from LogisticRegression import LogisticRegression
-
+import sys
+import os
 
 # print(df.describe()['mean'])
 # print(df.dtypes)
@@ -66,7 +67,7 @@ def pre_prossceing(df):
 
 
 # mapping house index 
-def main():
+def logreg_train(df):
     
     df = pd.read_csv("dataset_train.csv")
     trian_df = pre_prossceing(df)
@@ -83,7 +84,7 @@ def main():
         
         y = y.to_numpy()
         # print(i)
-        model_custom = LogisticRegression(lr=0.001, num_iter=100000, lambda_param=1.0)
+        model_custom = LogisticRegression(lr=0.01, num_iter=100000, lambda_param=1.0)
         model_custom.fit(X_scaled, y)
         
         key = [k for k, v in house_i.items() if v == i]
@@ -99,4 +100,21 @@ def main():
     df = pd.DataFrame(X_weights.T,columns=trian_df.columns ,index=houses)
     df.to_csv("weights.csv")
 
-main()
+def main():
+        
+        try:
+            if len(sys.argv) != 2:
+                raise AssertionError("Incorrect number of arguments")
+            else:
+                file_path = sys.argv[1]
+                if os.path.exists(file_path):
+                        df = pd.read_csv(file_path)
+                        logreg_train(df)
+                    
+                else:
+                    print("File does not exist.")
+        except AssertionError as error:
+            print(AssertionError.__name__ + ":", error)
+    
+if __name__ == "__main__":
+    main()

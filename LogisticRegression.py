@@ -5,7 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 class LogisticRegression:
-    def __init__(self, lr=0.001, num_iter=100000, lambda_param=0.1):
+    def __init__(self, lr=0.01, num_iter=1, lambda_param=0.1):
         self.lr = lr
         self.num_iter = num_iter
         self.fit_intercept = False
@@ -37,23 +37,14 @@ class LogisticRegression:
         for i in range(self.num_iter):
             z = np.dot(X, self.theta)
             h = self.__sigmoid(z)
+
+            # loss function derivitive 
+            gradient = np.dot(X.T, (h - y)) / y.size 
             
-            # Calculate gradient with regularization
-            gradient = np.dot(X.T, (h - y)) / y.size
-            if self.fit_intercept:
-                gradient[1:] += (self.lambda_param * self.theta[1:]) / y.size  # Don't regularize intercept
-            else:
-                gradient += (self.lambda_param * self.theta) / y.size
-            
-            # Update weights
+            # gradient += (self.theta) / y.size
+            # θ_new = θ_old - α * ∂J/∂θ
             self.theta -= self.lr * gradient
-            
-            # Calculate loss
-            z = np.dot(X, self.theta)
-            h = self.__sigmoid(z)
             loss = self.__loss(h, y)
-            self.loss_history.append(loss)
             
-            # Print progress
-            # if(self.pr_loss and i % 10000 == 0):
-            #     print(f'Iteration {i}, Loss: {loss:.4f}')
+            if(self.pr_loss and i % 10000 == 0):
+                print(f'Iteration {i}, Loss: {loss:.4f}')

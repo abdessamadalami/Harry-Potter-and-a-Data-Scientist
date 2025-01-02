@@ -3,7 +3,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
+import sys,os
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler()
@@ -22,7 +22,7 @@ def predict_prob(X,theta):
         return sigmoid(np.dot(X, theta))
 
 
-def main():
+def logreg_predict(weights_df, data_pr ):
        
     weights_df = pd.read_csv("weights.csv", index_col=0)
     data_pr = pd.read_csv("dataset_test.csv")
@@ -45,3 +45,23 @@ def main():
     # output_df.insert(0, "index")
     output_df.reset_index(inplace=True)
     output_df.to_csv('./houses.csv', columns=["index", "Hogwarts House"], index=False)
+
+def main():
+        
+        try:
+            if len(sys.argv) != 3:
+                raise AssertionError("Incorrect number of arguments")
+            else:
+                weights_path = sys.argv[1]
+                test_path = sys.argv[2]
+                if os.path.exists(weights_path) and os.path.exists(test_path):
+                    weights_df = pd.read_csv("weights.csv", index_col=0)
+                    data_pr = pd.read_csv("dataset_test.csv")
+                    logreg_predict(weights_df=weights_df, data_pr=data_pr)
+                else:
+                    print("File does not exist.")
+        except AssertionError as error:
+            print(AssertionError.__name__ + ":", error)
+    
+if __name__ == "__main__":
+    main()
