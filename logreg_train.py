@@ -84,7 +84,7 @@ def logreg_train(df):
         
         y = y.to_numpy()
         # print(i)
-        model_custom = LogisticRegression(lr=0.01, num_iter=100000, lambda_param=1.0)
+        model_custom = LogisticRegression(lr=0.01, num_iter=1000, lambda_param=1.0, algo="MBGD")
         model_custom.fit(X_scaled, y)
         
         key = [k for k, v in house_i.items() if v == i]
@@ -95,13 +95,14 @@ def logreg_train(df):
         else:
             X_weights = np.hstack((X_weights, column))  # Horizontally stack the new column
         i+=1
+        
+        
 
     # df = pd.DataFrame(X_weights.T, index=houses)
     df = pd.DataFrame(X_weights.T,columns=trian_df.columns ,index=houses)
     df.to_csv("weights.csv")
 
 def main():
-        
         try:
             if len(sys.argv) != 2:
                 raise AssertionError("Incorrect number of arguments")
@@ -110,7 +111,6 @@ def main():
                 if os.path.exists(file_path):
                         df = pd.read_csv(file_path)
                         logreg_train(df)
-                    
                 else:
                     print("File does not exist.")
         except AssertionError as error:
